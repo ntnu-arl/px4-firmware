@@ -46,6 +46,9 @@
 #include <mathlib/math/Limits.hpp>
 #include <mathlib/math/Functions.hpp>
 
+#include <iostream> // < ========================== TODO: REMOVE ! ==================
+
+
 using namespace matrix;
 using namespace time_literals;
 
@@ -262,6 +265,10 @@ ControlAllocator::update_effectiveness_source()
 			tmp = new ActuatorEffectivenessHelicopter(this);
 			break;
 
+		case EffectivenessSource::WABBLE:
+			tmp = new ActuatorEffectivenessWabble(this);
+			break;
+
 		default:
 			PX4_ERR("Unknown airframe");
 			break;
@@ -306,11 +313,14 @@ ControlAllocator::Run()
 #endif
 
 	// Check if parameters have changed
-	if (_parameter_update_sub.updated() && !_armed) {
+	// if (_parameter_update_sub.updated() && !_armed) {
+	// Method 1 for in-flight dynamic allocation:
+	// force parameters_update when motor position changes
+	if (_parameter_update_sub.updated() ) {
 		// clear update
 		parameter_update_s param_update;
 		_parameter_update_sub.copy(&param_update);
-
+		std::cout<<"Params Update!\n";
 		if (_handled_motor_failure_bitmask == 0) {
 			// We don't update the geometry after an actuator failure, as it could lead to unexpected results
 			// (e.g. a user could add/remove motors, such that the bitmask isn't correct anymore)

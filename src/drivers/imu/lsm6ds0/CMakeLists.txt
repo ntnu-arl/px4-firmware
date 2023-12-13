@@ -1,6 +1,6 @@
 ############################################################################
 #
-#   Copyright (c) 2019 PX4 Development Team. All rights reserved.
+#   Copyright (c) 2019-2020 PX4 Development Team. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -31,45 +31,24 @@
 #
 ############################################################################
 
-px4_add_library(ActuatorEffectiveness
-	ActuatorEffectiveness.cpp
-	ActuatorEffectiveness.hpp
-	ActuatorEffectivenessControlSurfaces.cpp
-	ActuatorEffectivenessControlSurfaces.hpp
-	ActuatorEffectivenessCustom.cpp
-	ActuatorEffectivenessCustom.hpp
-	ActuatorEffectivenessFixedWing.cpp
-	ActuatorEffectivenessFixedWing.hpp
-	ActuatorEffectivenessHelicopter.cpp
-	ActuatorEffectivenessHelicopter.hpp
-	ActuatorEffectivenessMCTilt.cpp
-	ActuatorEffectivenessMCTilt.hpp
-	ActuatorEffectivenessMultirotor.cpp
-	ActuatorEffectivenessMultirotor.hpp
-	ActuatorEffectivenessTilts.cpp
-	ActuatorEffectivenessTilts.hpp
-	ActuatorEffectivenessRotors.cpp
-	ActuatorEffectivenessRotors.hpp
-	ActuatorEffectivenessStandardVTOL.cpp
-	ActuatorEffectivenessStandardVTOL.hpp
-	ActuatorEffectivenessTiltrotorVTOL.cpp
-	ActuatorEffectivenessTiltrotorVTOL.hpp
-	ActuatorEffectivenessTailsitterVTOL.cpp
-	ActuatorEffectivenessTailsitterVTOL.hpp
-	ActuatorEffectivenessRoverAckermann.hpp
-	ActuatorEffectivenessRoverAckermann.cpp
-	ActuatorEffectivenessRoverDifferential.hpp
-	ActuatorEffectivenessRoverDifferential.cpp
-	ActuatorEffectivenessWabble.hpp
-	ActuatorEffectivenessWabble.cpp
-)
+px4_add_module(
+	MODULE drivers__imu__lsm6ds0
+	MAIN lsm6ds0
+	COMPILE_FLAGS
+	SRCS
+		LSM6SD0_Accelerometer_Registers.hpp
+		LSM6SD0_Gyroscope_Registers.hpp
 
-target_compile_options(ActuatorEffectiveness PRIVATE ${MAX_CUSTOM_OPT_LEVEL})
-target_include_directories(ActuatorEffectiveness PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(ActuatorEffectiveness
-	PRIVATE
-		mathlib
-)
+		LSM6SD0.cpp
+		LSM6SD0.hpp
+		LSM6SD0_Accelerometer.cpp
+		LSM6SD0_Accelerometer.hpp
+		LSM6SD0_Gyroscope.cpp
+		LSM6SD0_Gyroscope.hpp
 
-px4_add_functional_gtest(SRC ActuatorEffectivenessHelicopterTest.cpp LINKLIBS ActuatorEffectiveness)
-px4_add_functional_gtest(SRC ActuatorEffectivenessRotorsTest.cpp LINKLIBS ActuatorEffectiveness)
+		lsm6ds0_main.cpp
+	DEPENDS
+		drivers_accelerometer
+		drivers_gyroscope
+		px4_work_queue
+	)

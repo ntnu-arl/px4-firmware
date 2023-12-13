@@ -173,7 +173,6 @@ ControlAllocationPseudoInverse::allocate()
 {
 	//Compute new gains if needed
 	updatePseudoInverse();
-
 	_prev_actuator_sp = _actuator_sp;
 
 	// Allocate

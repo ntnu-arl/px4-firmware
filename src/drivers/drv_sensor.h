@@ -230,6 +230,9 @@
 #define DRV_INS_DEVTYPE_VN200 0xE2
 #define DRV_INS_DEVTYPE_VN300 0xE3
 
+#define DRV_ACC_DEVTYPE_LSM6SD0          0xE4
+#define DRV_GYR_DEVTYPE_LSM6SD0          0xE5
+
 #define DRV_DEVTYPE_UNUSED		0xff
 
 #endif /* _DRV_SENSOR_H */
